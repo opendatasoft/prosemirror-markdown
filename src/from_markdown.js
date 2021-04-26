@@ -1,4 +1,5 @@
 import markdownit from "markdown-it"
+import markdownitMark from "markdown-it-mark"
 import {schema} from "./schema"
 import {Mark} from "prosemirror-model"
 
@@ -231,7 +232,7 @@ function listIsTight(tokens, i) {
 // :: MarkdownParser
 // A parser parsing unextended [CommonMark](http://commonmark.org/),
 // without inline HTML, and producing a document in the basic schema.
-export const defaultMarkdownParser = new MarkdownParser(schema, markdownit("commonmark", {html: false}), {
+export const defaultMarkdownParser = new MarkdownParser(schema, markdownit("commonmark", {html: false}).use(markdownitMark), {
   blockquote: {block: "blockquote"},
   paragraph: {block: "paragraph"},
   list_item: {block: "list_item"},
@@ -257,5 +258,6 @@ export const defaultMarkdownParser = new MarkdownParser(schema, markdownit("comm
     href: tok.attrGet("href"),
     title: tok.attrGet("title") || null
   })},
-  code_inline: {mark: "code", noCloseToken: true}
+  code_inline: {mark: "code", noCloseToken: true},
+  mark: {mark: "mark"}
 })
